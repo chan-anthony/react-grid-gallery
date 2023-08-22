@@ -21,6 +21,7 @@ export interface Image {
   customOverlay?: ReactNode;
   thumbnailCaption?: ReactNode;
   orientation?: number;
+  is_video: boolean;
 }
 
 export type ImageExtended<T extends Image = Image> = T & {
@@ -69,6 +70,7 @@ export interface ImageProps<T extends ImageExtended = ImageExtended> {
   thumbnailStyle: StyleProp<T>;
   tagStyle: StyleProp<T>;
   thumbnailImageComponent: ComponentType<ThumbnailImageProps>;
+  is_video: boolean;
 }
 
 export interface ThumbnailImageComponentImageProps {

@@ -51,6 +51,7 @@ export const Gallery = <T extends ImageInterface>(
       <ResizeListener onResize={handleResize} />
       <div style={styles.gallery}>
         {thumbnails.map((item, index) => (
+          // handle if the media is video
           <Image
             key={item.key || index}
             item={item}
@@ -64,6 +65,7 @@ export const Gallery = <T extends ImageInterface>(
             tileViewportStyle={props.tileViewportStyle}
             thumbnailStyle={props.thumbnailStyle}
             thumbnailImageComponent={props.thumbnailImageComponent}
+            is_video={item.is_video}
           />
         ))}
       </div>

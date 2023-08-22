@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useRef } from "react";
 import { CheckButton } from "./CheckButton";
 import { ImageExtended, ImageProps } from "./types";
 import * as styles from "./styles";
@@ -30,6 +30,23 @@ export const Image = <T extends ImageExtended>(
 
   const handleViewportClick = (event: MouseEvent<HTMLElement>) => {
     props.onClick(props.index, event);
+  };
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleViewportMouseEnter = () => {
+    if (props.is_video && videoRef.current) {
+      videoRef.current.play();
+    }
+    setHover(true);
+  };
+
+  const handleViewportMouseLeave = () => {
+    if (props.is_video && videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+    setHover(false);
   };
 
   return (
@@ -98,7 +115,18 @@ export const Image = <T extends ImageExtended>(
         )}
         onClick={handleViewportClick}
       >
-        {ThumbnailImageComponent ? (
+        {props.is_video ? (
+          <video
+            width="320"
+            height="240"
+            muted
+            ref={videoRef}
+            onMouseEnter={handleViewportMouseEnter}
+            onMouseLeave={handleViewportMouseLeave}
+          >
+            <source src={props.item.src} type="video/mp4" />
+          </video>
+        ) : ThumbnailImageComponent ? (
           <ThumbnailImageComponent {...props} imageProps={thumbnailProps} />
         ) : (
           <img {...thumbnailProps} />
